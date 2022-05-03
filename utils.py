@@ -1,11 +1,4 @@
 import subprocess
-from datetime import date
-
-def write_to_file(check_name, check_result):
-    today = date.today()
-    file1 = open(f".\\{today}.txt", "a")
-    file1.write(f"{check_name}: {check_result}\n")
-    file1.close()
 
 def make_list_from_data(data):
     strOutput = data

@@ -4,7 +4,7 @@ import windows_tools.antivirus
 import windows_tools.windows_firewall
 import windows_tools.powershell
 import platform
-from utils import write_to_file, run_shell_command, make_list_from_data
+from utils import run_shell_command, make_list_from_data
 
 client_status = {"computer_name": socket.gethostname(),
                  "system_version":None,
