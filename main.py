@@ -1,8 +1,13 @@
+import datetime
 import sys
 import win32serviceutil  # ServiceFramework and commandline helper
 import win32service  # Events
 import servicemanager  # Simple setup and logging
-from systen_checks import password_policy,dok, chrome_version,system_version,anti_virus,windows_firewall_policy,windows_firewall_is_on, login_events, reboot_events
+import requests
+
+from systen_checks import password_policy, dok, chrome_version, system_version, anti_virus, windows_firewall_is_on, \
+    login_events, get_result
+
 
 class MyService:
     """Silly little application stub"""
@@ -12,8 +17,8 @@ class MyService:
 
     def run(self):
         """Main service loop. This is where work is done!"""
-        self.running = True
-        while self.running:
+        now = datetime.now()
+        while now.hour == 0 and now.minute == 0 and now.second == 0:
             system_version()
             anti_virus()
             windows_firewall_is_on()
@@ -21,14 +26,13 @@ class MyService:
             dok()
             chrome_version()
             login_events()
-            reboot_events()
-            windows_firewall_policy()
-            self.stop()
+            result = get_result()
+            requests.post(f"http://127.0.0.1:8000/client/status?client_status={result}")
 
 class MyServiceFramework(win32serviceutil.ServiceFramework):
 
-    _svc_name_ = 'test'
-    _svc_display_name_ = 'test'
+    _svc_name_ = 'Tracker'
+    _svc_display_name_ = 'Tracker'
 
     def SvcStop(self):
         """Stop the service"""

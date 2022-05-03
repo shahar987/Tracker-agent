@@ -1,3 +1,4 @@
 pywin32
 pyinstaller
 windows-tools==2.3.0
+requests

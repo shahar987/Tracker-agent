@@ -1,12 +1,15 @@
 import socket
 import re
 
+import datetime
 from datetime import datetime
 import windows_tools.antivirus
 import windows_tools.windows_firewall
 import windows_tools.powershell
 import platform
 from utils import run_shell_command, make_list_from_data
+
+
 
 client_status = {"computer_name": socket.gethostname(),
                  "system_version":None,
@@ -76,9 +79,6 @@ def windows_firewall_is_on():
     client_status["windows_firewall_is_active"] = windows_tools.windows_firewall.is_firewall_active()
 
 
-def windows_firewall_policy():
-    output = run_shell_command("Get-NetFirewallRule")
-
 
 def password_policy():
     max_pass_age = ""
@@ -119,20 +119,14 @@ def login_events():
             filtered_list.append(str(res3))
     client_status["failed_login_event"] = filtered_list
 
+def get_result():
+    return client_status
 
-def reboot_events():
-    output = run_shell_command("get-eventlog system | where-object {$_.eventid -eq 1074} | select Timegenerated, EntryType, Message")
 
 
-if __name__ == '__main__':
-    system_version()
-    dok()
-    chrome_version()
-    windows_firewall_is_on()
-    password_policy()
-    login_events()
-    anti_virus()
-    print(client_status)
+
+
+
 
 
 
