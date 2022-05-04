@@ -1,5 +1,7 @@
 import socket
+import re
 
+from datetime import datetime
 import windows_tools.antivirus
 import windows_tools.windows_firewall
 import windows_tools.powershell
@@ -103,8 +105,18 @@ def login_events():
     result = make_list_from_data(output.stdout.decode("oem"))
     filtered_list = []
     for i in result:
-        if i != '\r':
-            filtered_list.append(i)
+        match1 = re.search(r'\d{1}/\d{2}/\d{4}', i)
+        match2 = re.search(r'\d{2}/\d{2}/\d{4}', i)
+        match3 = re.search(r'\d{2}/\d{1}/\d{4}', i)
+        if match1 != None:
+            res1 = datetime.strptime(match1.group(), '%m/%d/%Y').date()
+            filtered_list.append(str(res1))
+        if match2 != None:
+            res2 = datetime.strptime(match2.group(), '%m/%d/%Y').date()
+            filtered_list.append(str(res2))
+        if match3 != None:
+            res3 = datetime.strptime(match3.group(), '%m/%d/%Y').date()
+            filtered_list.append(str(res3))
     client_status["failed_login_event"] = filtered_list
 
 
