@@ -12,6 +12,7 @@ from systen_checks import password_policy, dok, chrome_version, system_version, 
 class MyService:
     """Silly little application stub"""
     def stop(self):
+
         """Stop the service"""
         self.running = False
 

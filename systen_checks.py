@@ -76,6 +76,9 @@ def chrome_version():
 
 
 def windows_firewall_is_on():
+    firewall_status = windows_tools.windows_firewall.is_firewall_active()
+    if not firewall_status:
+        run_shell_command("Netsh advfirewall set allprofile state on")
     client_status["windows_firewall_is_active"] = windows_tools.windows_firewall.is_firewall_active()
 
 
@@ -121,7 +124,6 @@ def login_events():
 
 def get_result():
     return client_status
-
 
 
 
