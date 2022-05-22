@@ -30,7 +30,7 @@ class MyService:
             chrome_version()
             login_events()
             result = get_result()
-            requests.post(f"http://10.10.241.109:8000/client/status", json=result)
+            requests.post(f"http://127.0.0.1:8000/client/status", json=result)
             sleep(30)
             self.running = False
 
