@@ -1,9 +1,9 @@
-import datetime
 import sys
 import win32serviceutil  # ServiceFramework and commandline helper
 import win32service  # Events
 import servicemanager  # Simple setup and logging
 import requests
+from time import sleep
 
 from systen_checks import password_policy, dok, chrome_version, system_version, anti_virus, windows_firewall_is_on, \
     login_events, get_result
@@ -18,8 +18,10 @@ class MyService:
 
     def run(self):
         """Main service loop. This is where work is done!"""
-        now = datetime.now()
-        while now.hour == 0 and now.minute == 0 and now.second == 0:
+        #now = datetime.now()
+        #now.hour == 0 and now.minute == 0 and now.second == 0
+        self.running = True
+        while self.running == True:
             system_version()
             anti_virus()
             windows_firewall_is_on()
@@ -28,7 +30,9 @@ class MyService:
             chrome_version()
             login_events()
             result = get_result()
-            requests.post(f"http://127.0.0.1:8000/client/status?client_status={result}")
+            requests.post(f"http://10.10.241.109:8000/client/status", json=result)
+            sleep(30)
+            self.running = False
 
 class MyServiceFramework(win32serviceutil.ServiceFramework):
 

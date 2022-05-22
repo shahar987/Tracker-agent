@@ -7,6 +7,9 @@ import windows_tools.antivirus
 import windows_tools.windows_firewall
 import windows_tools.powershell
 import platform
+
+import requests
+
 from utils import run_shell_command, make_list_from_data
 
 
@@ -18,7 +21,7 @@ client_status = {"computer_name": socket.gethostname(),
                  "antivirus_up_to_date": False,
                  "windows_firewall_is_active": None,
                  "max_pass_age": None,
-                 "min_pass_len":None,
+                 "min_pass_len": None,
                  "number_of_connected_doks": None,
                  "chrome_version": None,
                  "failed_login_event": None}
