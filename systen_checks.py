@@ -1,12 +1,13 @@
 import socket
 import re
-
 import datetime
 from datetime import datetime
 import windows_tools.antivirus
 import windows_tools.windows_firewall
 import windows_tools.powershell
 import platform
+import eventlet
+eventlet.monkey_patch()
 
 import requests
 
@@ -15,6 +16,7 @@ from utils import run_shell_command, make_list_from_data
 
 
 client_status = {"computer_name": socket.gethostname(),
+                 "ip_add": "10.0.0.1",
                  "system_version":None,
                  "antivirus_installed": False,
                  "antivirus_enabled": False,
@@ -129,6 +131,17 @@ def get_result():
     return client_status
 
 
+if __name__ == '__main__':
+    system_version()
+    anti_virus()
+    windows_firewall_is_on()
+    password_policy()
+    dok()
+    chrome_version()
+    login_events()
+    result = get_result()
+    print(result)
+    requests.post(f"http://193.106.55.136:80/client/status", json=result )
 
 
 
